@@ -1,2 +1,2 @@
-New-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\SystemCertificates\AuthRoot 
-New-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\SystemCertificates\AuthRoot -Name DisableRootAutoUpdate -PropertyType DWord -Value 1 –Force    
+    New-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\SystemCertificates\AuthRoot 
+    New-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\SystemCertificates\AuthRoot -Name DisableRootAutoUpdate -PropertyType DWord -Value 1 –Force    
