@@ -1,4 +1,47 @@
-﻿# Массив контейнеров
+﻿# Функция для очистки личного хранилища сертификатов пользователя
+function Clear-UserPersonalCertificates {
+    Write-Host "Начинаем очистку личного хранилища сертификатов пользователя..." -ForegroundColor Yellow
+    
+    try {
+        # Получаем все сертификаты из личного хранилища текущего пользователя
+        $certificates = Get-ChildItem -Path "Cert:\CurrentUser\My" -ErrorAction SilentlyContinue
+        
+        if ($certificates.Count -eq 0) {
+            Write-Host "Личное хранилище сертификатов уже пустое." -ForegroundColor Green
+            return
+        }
+        
+        Write-Host "Найдено $($certificates.Count) сертификат(ов) для удаления..." -ForegroundColor Yellow
+        
+        # Удаляем все сертификаты
+        foreach ($cert in $certificates) {
+            try {
+                $certSubject = $cert.Subject
+                $certThumbprint = $cert.Thumbprint
+                
+                # Удаляем сертификат
+                Remove-Item -Path "Cert:\CurrentUser\My\$certThumbprint" -Force -ErrorAction Stop
+                Write-Host "✓ Удален сертификат: $certSubject" -ForegroundColor Green
+            }
+            catch {
+                Write-Host "✗ Ошибка при удалении сертификата $certSubject`: $($_.Exception.Message)" -ForegroundColor Red
+            }
+        }
+        
+        Write-Host "Очистка личного хранилища сертификатов завершена!" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "✗ Ошибка при очистке хранилища сертификатов: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "Продолжаем выполнение скрипта..." -ForegroundColor Yellow
+    }
+    
+    Write-Host "================================================" -ForegroundColor Green
+}
+
+# Вызываем функцию очистки сертификатов
+Clear-UserPersonalCertificates
+
+# Массив контейнеров
 $containers = @(
     "\\.\FAT12_E\96531026@2025-07-31-OOO PV-VS",
     "\\.\FAT12_E\96531309@2025-07-31-OOO PV-SIBIR 2",
