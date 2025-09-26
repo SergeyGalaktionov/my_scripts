@@ -1,0 +1,46 @@
+#PRAGMA AUTORECOVER
+//============================================================================
+// TPM Endorsement Key WMI Class Definition
+// Файл: TPMEndorsementKey.mof
+//============================================================================
+
+#pragma classflags("forceupdate")
+#pragma namespace("\\\\.\\root\\cimv2")
+
+[
+    Description("Custom WMI class for storing TPM Endorsement Key information")
+]
+class Win32_TPMEndorsementKey
+{
+    [
+        Key,
+        Description("Computer name where TPM data was collected")
+    ]
+    string ComputerName;
+    
+    [
+        Key,
+        Description("Hash algorithm used for TPM key")
+    ]
+    string HashAlgorithm;
+    
+    [
+        Description("Public key hash from TPM Endorsement Key")
+    ]
+    string PublicKeyHash;
+    
+    [
+        Description("Date and time when the data was collected")
+    ]
+    datetime CollectionTime;
+    
+    [
+        Description("Indicates if TPM is available and data collection was successful")
+    ]
+    boolean IsAvailable;
+    
+    [
+        Description("Error message if data collection failed")
+    ]
+    string ErrorMessage;
+};
